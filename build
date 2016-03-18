@@ -1,0 +1,29 @@
+#!/bin/bash
+#Script to build Int.js
+
+TS=$(date +"%m.%d.%y_%H.%M.%S")
+PRE="Int-"
+SUF=".min.js"
+ARCH=$PRE$TS$SUF
+
+if [ $# == 1 ]; then
+	if [ $1 == "-m" -o $1 == "--metrics" ]; then
+		printf "building scripts...		"
+		java -jar compiler/compiler.jar --js_output_file=Int.min.js source/**.js metrics/**.js
+		printf "completed. Built $ARCH with metrics\n"
+	elif [ $1 == "-c" -o $1 == "--clear" ]; then
+		rm Int.min.js
+		rm builds/Int*.min.js
+		printf "cleared all build scripts\n"
+	else
+		printf "usage: bash $0 [-m|-metrics]\n"
+	fi
+	exit 0
+fi
+
+printf "building scripts...		"
+
+java -jar compiler/compiler.jar --js_output_file=Int.min.js source/**.js
+cp Int.min.js builds/$ARCH
+
+printf "completed. Built $ARCH\n"
