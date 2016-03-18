@@ -12,8 +12,7 @@ grow aribitrarily large (limited mostly by the amount of memory available on a
 machine). It uses an array of native js Number objects to represent large numbers
 and focuses on manipulating representation accurately and with high performance.
 
-I created the Int_lib library with the intention of using it for a personal project
-- a web application that required use of RSA. More information at www.apoorvagupta.com
+I created the Int_lib library with the intention of using it for a personal project: a web application that required use of RSA. More information at www.apoorvagupta.com
 
 
 BASIC BUILD INSTRUCTIONS:
