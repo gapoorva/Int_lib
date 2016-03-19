@@ -1,14 +1,16 @@
 function randstr(n) { //expecting positve non-zero
+	var digits = "1350789624";
+	var digitsNoZero = "756921843";
 	var str = "";
 	for(var i = 0; i < n; i++) 
-		str += Int.digits[Math.floor(Math.random()*10)];
+		str += digits[Math.floor(Math.random()*10)];
 
 	var z = 0;
 	while(str[z] == "0") ++z;
 
 	str = str.substring(z);
 	while(z-- > 0) {
-		str += Int.digitsNoZero[Math.floor(Math.random()*9)];
+		str += digitsNoZero[Math.floor(Math.random()*9)];
 	}
 
 	return str;
@@ -26,7 +28,7 @@ function runCorrectnessTest(operation) {
 	 	case "-":
 	 		op = Int_sub;
 	 		break;
-	 	case "x":
+	 	case "*":
 	 		op = Int_mul;
 	 		break;
 	 	case "/":
@@ -61,7 +63,7 @@ function runCorrectnessTest(operation) {
 	 		var C = op(A, B);
 	 		// var d = document.createElement("div");
 	 		// div.appendChild();
-
+	 		//console.log(C);
 	 		document.getElementById("body").appendChild(
 	 			document.createTextNode(A.get() +" "+ B.get() +" "+ C.get())
 	 		);

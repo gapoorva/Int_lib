@@ -7,20 +7,21 @@ function Int_mul(a, b) {
 	b.is_negative = false;
 	//base case
 	if(a.data.length == 1 && b.data.length == 1) { 
-		var upper_a = Math.floor(a.data[0] / 10000) // upper 5 bits a
-		var upper_b = Math.floor(b.data[0] / 10000) // upper 5 bits b
-		var lower_a = a.data[0] % 10000; 			// lower 4 bits a
-		var lower_b = b.data[0] % 10000;			// lower 4 bits b
+		var upper_a = Math.floor(a.data[0] / 10000000) // upper 7 bits a
+		var upper_b = Math.floor(b.data[0] / 10000000) // upper 7 bits b
+		var lower_a = a.data[0] % 10000000; 			// lower 7 bits a
+		var lower_b = b.data[0] % 10000000;				// lower 7 bits b
 
 		var z0 = lower_a*lower_b;
 		var z2 = upper_a*upper_b;
 		var z1 = (upper_a+lower_a)*(upper_b+lower_b) - z2 - z0;
 
+		//max value 99999980000001, just barely safe, but can't trust even adds.
 
 		//USE: INT_LS and INT_ADD instead of *10000 and + 
 		if(sign)
-			return Int_add(z2.toString()+Int.upper_shift_8, z1*10000 + z0).negate();
-		return Int_add(z2.toString()+Int.upper_shift_8, z1*10000 + z0);
+			return Int_add(z2.toString()+"00000000000000", Int_add(Int_ls(z1, 7), z0)).negate();
+		return Int_add(z2.toString()+"00000000000000", Int_add(Int_ls(z1, 7), z0));
 	}
 
 	//a is base, but b is longer

@@ -1,7 +1,12 @@
 // + operator
 function Int_add(a, b) {
+	//console.log("inside add");
+
 	a = Int_convertToInt(a);
 	b = Int_convertToInt(b);
+
+	// console.log("a :", a.get(), a.data)
+	// console.log("b :", b.get(), b.data)
 
 	if(a.is0()) return b;
 	if(b.is0()) return a;
@@ -17,19 +22,19 @@ function Int_add(a, b) {
 	for (var i = 0; i < match; ++i) {
 		var sum = a.data[i] + b.data[i] + carry;
 		ans.data.push(sum % Int.MAX_UNIT);
-		carry = Math.floor(sum / Int.MAX_UNIT);
+		carry = (sum >= Int.MAX_UNIT)?1:0;
 	}
 	while(match < a.data.length) {
 		 var sum = a.data[match++] + carry;
 		 ans.data.push(sum % Int.MAX_UNIT);
-		 carry = Math.floor(sum / Int.MAX_UNIT);
+		 carry = (sum >= Int.MAX_UNIT)?1:0;
 		 while (carry == 0 && match < a.data.length)
 		 	ans.data.push(a.data[match++])
 	}
 	while(match < b.data.length) {
 		var sum = b.data[match++] + carry;
 		ans.data.push(sum % Int.MAX_UNIT);
-		carry = Math.floor(sum / Int.MAX_UNIT);
+		carry = (sum >= Int.MAX_UNIT)?1:0;
 		while (carry == 0 && match < a.data.length)
 		 	ans.data.push(a.data[match++])
 	}
@@ -37,6 +42,7 @@ function Int_add(a, b) {
 		ans.data.push(carry);
 	}
 	ans.is_negative = sign;
+	//console.log("return:", ans.get(), ans.data);
 	return ans;
 }
 

@@ -8,7 +8,7 @@ function Int_reciprocol(a, n) {
 	var minlength = (n*2 < 4)?4:n*2;
 
 	while((reciprocol.length < minlength) && !diff.is0()) {
-
+		// console.log(reciprocol, diff.get());
 		dig = 0;
 		while(Int_lteq(a, diff)) {
 			diff = Int_sub(diff, a);
@@ -48,8 +48,34 @@ function Int_reciprocol(a, n) {
 	
 }
 
-
 function Int_div_fast(a, b, getMod) {
+	a = Int_convertToInt(a);
+	b = Int_convertToInt(b);
+
+	var sign = a.is_negative == b.is_negative?false:true;
+	a.is_negative = false;
+	b.is_negative = false;
+	//Integer division 0 case
+	if(Int_lt(a, b)) {
+		if (getMod) return a;
+		return new Int("z");
+	}
+	//Integer divison 1 case
+	if(Int_eq(a, b)) {
+		if (getMod) return new Int("z");
+		var one = new Int(1);
+		one.is_negative = sign;
+		return one;
+	}
+	//Integer divison a case
+	if(b.data[0] == 1) {
+		if (getMod) return new Int("z");
+		return new Int(a);
+	}
+	//Integer division undefined case
+	if(b.data[0] == 0) return new Int("z");
+
+	
 	//Reciprocal method:
 	var required_n = a.repLength();
 	var rObj = Int_reciprocol(b, required_n);
@@ -67,6 +93,31 @@ function Int_div_fast(a, b, getMod) {
 
 // / operator
 function Int_div_long(a, b, getMod) {
+	a = Int_convertToInt(a);
+	b = Int_convertToInt(b);
+
+	var sign = a.is_negative == b.is_negative?false:true;
+	a.is_negative = false;
+	b.is_negative = false;
+	//Integer division 0 case
+	if(Int_lt(a, b)) {
+		if (getMod) return a;
+		return new Int("z");
+	}
+	//Integer divison 1 case
+	if(Int_eq(a, b)) {
+		if (getMod) return new Int("z");
+		var one = new Int(1);
+		one.is_negative = sign;
+		return one;
+	}
+	//Integer divison a case
+	if(b.data[0] == 1) {
+		if (getMod) return new Int("z");
+		return new Int(a);
+	}
+	//Integer division undefined case
+	if(b.data[0] == 0) return new Int("z");
 
 
 	var ans_digits = a.repLength() - b.repLength(); //n-d

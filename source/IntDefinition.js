@@ -1,8 +1,8 @@
 function Int(num_in) {
 
-	this.MAX_DIGITS = 9;
-	this.radix_str = "0123456789";
-	this.radix = 10;
+	this.MAX_DIGITS = 14;
+	var radix_str = "0123456789";
+	var radix = 10;
 	this.data = [];
 	this.is_negative = false;
 	this.updated = false;
@@ -82,7 +82,7 @@ function Int(num_in) {
 		for(var i = 0; i < Math.ceil(num_in.length/this.MAX_DIGITS); ++i) {
 			place = 0;
 			while(idx >= 0 && idx >= num_in.length - this.MAX_DIGITS*(i+1)) {
-				accum += this.radix_str.indexOf(num_in[idx--])*Math.pow(this.radix,place++);
+				accum += radix_str.indexOf(num_in[idx--])*Math.pow(radix,place++);
 			}
 			this.data.push(accum);
 			accum = 0;
@@ -93,10 +93,10 @@ function Int(num_in) {
 	}
 }
 
-Int.MAX_UNIT = 1000000000;
-Int.upper_shift_8 = "00000000";
-Int.digits = "1350789624";
-Int.digitsNoZero = "756921843";
+Int.MAX_UNIT = 100000000000000; //14 digits
+//Int.upper_shift_8 = "00000000";
+// Int.digits = "1350789624";
+// Int.digitsNoZero = "756921843";
 
 //Returns decimal string representation
 Int.prototype.get = function() {
@@ -158,17 +158,32 @@ Int.prototype.is0 = function() {
 
 Int.prototype.ninesComplement = function() {
 	var cmplt = new Int("z");
+	// console.log("cmplt :", cmplt.get(), cmplt.data);
 	cmplt.data = [];
+	// console.log("cmplt :", cmplt.get(), cmplt.data);
 	//generate equivalent 9's string
 	for (var i = 0; i < this.data.length-1; ++i) 
 		cmplt.data.push(Int.MAX_UNIT-1);
+	// console.log("cmplt :", cmplt.get(), cmplt.data);
 	cmplt.data.push(9);
+	// console.log("cmplt :", cmplt.get(), cmplt.data);
+
 	while(cmplt.data[cmplt.data.length-1] < this.data[this.data.length-1]) 
 		cmplt.data[cmplt.data.length-1] = cmplt.data[cmplt.data.length-1]*10 + 9
-
+	// console.log("cmplt :", cmplt.get(), cmplt.data);
+	// console.log("this- :", this.get(), this.data);
+	// console.log("compute:");
 	//compute 9's complement
-	for (var i in this.data) 
+	for (var i = 0; i < this.data.length; i++) {
+		// console.log(cmplt.data[i], this.data[i], cmplt.data[i] - this.data[i], i)
+		// console.log("cmplt :", cmplt.get(), cmplt.data);
+		// console.log("this- :", this.get(), this.data);
 		cmplt.data[i] = cmplt.data[i] - this.data[i];
+		// console.log("cmplt :", cmplt.get(), cmplt.data);
+		// console.log("this- :", this.get(), this.data);
+	}
+	// console.log("cmplt :", cmplt.get(), cmplt.data);
+	// console.log("this- :", this.get(), this.data);
 	return Int_add(cmplt, 1);
 }
 
@@ -194,6 +209,7 @@ function Int_convertToInt(x) {
 			return new Int(x);
 		} else {
 			console.error("ERROR: cannot construct Int object from given type "+(typeof x));
+			console.log(x);
 			return new Int("0");
 		}
 	}
