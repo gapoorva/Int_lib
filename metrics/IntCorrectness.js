@@ -34,6 +34,9 @@ function runCorrectnessTest(operation) {
 	 	case "/":
 	 		op = Int_div;
 	 		break;
+	 	case "%":
+	 		op = Int_mod;
+	 		break;
 	 	default:
 	 		op = Int_eq;
 	 }
