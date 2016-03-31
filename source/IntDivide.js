@@ -92,33 +92,9 @@ function Int_div_fast(a, b, getMod) {
 
 
 // / operator
-function Int_div_long(a, b, getMod) {
+function Int_div_long(a, b, getMod, getBoth) {
 	// a = Int_convertToInt(a);
 	// b = Int_convertToInt(b);
-
-	// var sign = a.is_negative == b.is_negative?false:true;
-	// a.is_negative = false;
-	// b.is_negative = false;
-	// //Integer division 0 case
-	// if(Int_lt(a, b)) {
-	// 	if (getMod) return a;
-	// 	return new Int("z");
-	// }
-	// //Integer divison 1 case
-	// if(Int_eq(a, b)) {
-	// 	if (getMod) return new Int("z");
-	// 	var one = new Int(1);
-	// 	one.is_negative = sign;
-	// 	return one;
-	// }
-	// //Integer divison a case
-	// if(b.data[0] == 1) {
-	// 	if (getMod) return new Int("z");
-	// 	return new Int(a);
-	// }
-	// //Integer division undefined case
-	// if(b.data[0] == 0) return new Int("z");
-
 
 	var ans_digits = a.repLength() - b.repLength(); //n-d
 	var quotient = new Int("z");
@@ -133,10 +109,11 @@ function Int_div_long(a, b, getMod) {
 	}
 
 	if (getMod) return a;
+	else if (getBoth) return {"q": quotient, "r": a};
 	else return quotient;
 }
 
-function Int_div(a, b, getMod) {
+function Int_div(a, b, getMod, getBoth) {
 	//INTEGER DIVISION
 	a = Int_convertToInt(a);
 	b = Int_convertToInt(b);
@@ -146,7 +123,8 @@ function Int_div(a, b, getMod) {
 	b.is_negative = false;
 	//Integer division 0 case
 	if(Int_lt(a, b)) {
-		if (getMod) return a;
+		if (getMod) return new Int(a);
+		if (getBoth) return {"q": new Int("z"), "r": new Int(a)};
 		return new Int("z");
 	}
 	//Integer divison 1 case
@@ -154,22 +132,31 @@ function Int_div(a, b, getMod) {
 		if (getMod) return new Int("z");
 		var one = new Int(1);
 		one.is_negative = sign;
+		if (getBoth) return {"q": one, "r": new Int("z")};
 		return one;
 	}
 	//Integer divison a case
 	if(b.data[0] == 1) {
 		if (getMod) return new Int("z");
+		if (getBoth) return {"q": new Int(a), "r": new Int("z")};
 		return new Int(a);
 	}
 	//Integer division undefined case
-	if(b.data[0] == 0) return new Int("z");
+	if(b.data[0] == 0) {
+		if(getBoth) return {"q":new Int("z"), "r": new Int("z")};
+		return new Int("z");
+	}	
+
 
 	var div = Int_div_long;
 	//if(a.repLength() > 3*b.repLength()) div = Int_div_fast;
 	//else div = Int_div_long;
 
-	var q = div(a, b, getMod);
-	q.is_negative = sign;
+	var q = div(a, b, getMod, getBoth);
+	if(getBoth) 
+		q.q.is_negative = q.r.is_negative = sign;
+	else
+		q.is_negative = sign;
 	return q;
 
 }

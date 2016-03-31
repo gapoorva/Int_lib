@@ -217,7 +217,7 @@ function performanceUnit() {
 
 	//console.log(Int_gt(a1000,b1000));
 	var div1000_1 = new Date();
-	Int_div(a1000, b10);
+	Int_div(a1000, 16);
 	var div1000_2 = new Date();
 	//console.log("\t1000 digit div:\t\t\t",div1000_2-div1000_1);
 	results.div1000 = div1000_2-div1000_1;
