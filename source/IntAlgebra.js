@@ -50,3 +50,20 @@ function Int_pow(a, b) {
 	//compute a to the power b...
 	// a*a = a^2
 }
+
+function Int_mde(base, exponent, modulus) {
+	base = Int_convertToInt(base);
+	modulus = Int_convertToInt(modulus);
+	//convert exponent to base 2 assuming exponent < (2 ** 53)
+	var expb = exponent.toString(2);
+	if (Int_eq(modulus, 1)) return new Int(0);
+	var result = new Int(1);
+	base = Int_mod(base, modulus);
+	for(var i = expb.length-1; i >=0; --i) {
+		if(expb[i] == '1') 
+			result = Int_mod(Int_mul(result, base), modulus);
+		base = Int_mod(Int_mul(base, base), modulus);
+	}
+	return result;
+}
+

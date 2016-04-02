@@ -5,7 +5,7 @@ Int_lib is a javascript library for representing arbitrarily large numbers. The
 API currently extends basic arithmetic operations on Int objects. Javascript can
 represent values up to 2^53-1 accurately in it's Native number object. While this
 is more than sufficient for most applications, certain uses like cryptography are
-not possible with native types. In industry, RSA an public modulus is 512 bits!
+not possible with native types.
 
 To tackle this issue, Int_lib provides the abstraction of a large number that can
 grow aribitrarily large (limited mostly by the amount of memory available on a
