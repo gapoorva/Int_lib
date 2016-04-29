@@ -20,5 +20,7 @@ function Int_thx(i) {
 	
 	hexstring.push(h[parseInt(div.r.get())]);
 
+	if(hexstring.length % 2 == 1) hexstring.push("0");
+
 	return (hexstring = hexstring.reverse()).join("");
 }
